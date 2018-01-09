@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+var sh = require('shelljs')
+var ps = require('lodash/string').padStart
+var silentState = sh.config.silent
+sh.config.silent = true
+
+Date.prototype.date = function(){
+  var year = this.getFullYear()
+  var month = this.getMonth()+1
+  var day = this.getDate()
+  return [year,month,day]
+    .map((v)=>ps(v,2,'0'))
+    .join('-')
+}
+
+var dir = new Date().date()
+sh.mkdir(dir)
+sh.cd(dir)
+sh.config.silent = silentState
+
